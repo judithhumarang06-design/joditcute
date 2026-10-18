@@ -1,0 +1,44 @@
+  <!-- OUTPUTS -->
+<section class="projects-section" id="projects">
+  <h2 class="section-title">Projects</h2>
+
+  <div class="container-fluid p-3">
+    <div class="row row-tall">
+      <div class="col-4 p-1">
+        <div class="card p-1 h-100">
+          <img src="output1.jpg" alt="Output 1">
+        </div>
+      </div>
+      <div class="col-8 p-1">
+        <div class="card p-1 h-100">
+          <img src="output2.jpg" alt="Output 2">
+        </div>
+      </div>
+    </div>
+
+    <div class="row row-mid">
+      <div class="col-3 p-1">
+        <div class="card p-1 h-100">
+          <img src="output3.jpg" alt="Output 3">
+        </div>
+      </div>
+
+      <div class="col-6 p-1">
+        <div class="row h-100">
+          <div class="col-12 p-1 h-50">
+            <div class="card p-1 h-100">
+              <img src="output4.jpg" alt="Output 4">
+            </div>
+          </div>
+          <div class="col-6 p-1 h-50">
+            <div class="card p-1 h-100">
+              <img src="output5.jpg" alt="Output 5">
+            </div>
+          </div>
+          <div class="col-6 p-1 h-50">
+            <div class="card p-1 h-100">
+              <img src="output6.jpg" alt="Output 6">
+            </div>
+          </div>
+        </div>
+      </div>
