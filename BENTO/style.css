@@ -1,0 +1,114 @@
+
+/* ===== BENTO OUTPUTS ===== */
+.outputs-section {
+  padding: 80px 5%;
+  background: var(--cream);
+}
+
+.bento-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ===== BENTO ROW SIZES ===== */
+.bento-container .row {
+  --bs-gutter-x: 0;
+}
+
+.bento-container .row-tall {
+  height: 260px;
+}
+
+.bento-container .row-mid {
+  height: 320px;
+}
+
+.bento-container .row-short {
+  height: 160px;
+}
+
+/* ===== BENTO CARDS ===== */
+.bento-card {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border: 3px solid var(--paper);
+  border-radius: 16px;
+  background: var(--pink);
+}
+
+.bento-card img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+/* ===== HOVER EFFECT ===== */
+.bento-card:hover img {
+  transform: scale(1.04);
+}
+
+/* ===== SMALL BENTO IMAGES ===== */
+.bento-small {
+  height: 50%;
+}
+
+/* ===== TABLET ===== */
+@media (max-width: 1000px) {
+  .outputs-section {
+    padding: 65px 5%;
+  }
+
+  .bento-container .row-tall {
+    height: 220px;
+  }
+
+  .bento-container .row-mid {
+    height: 260px;
+  }
+
+  .bento-container .row-short {
+    height: 140px;
+  }
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 768px) {
+  .outputs-section {
+    padding: 50px 4%;
+  }
+
+  .bento-container .row-tall {
+    height: 180px;
+  }
+
+  .bento-container .row-mid {
+    height: 220px;
+  }
+
+  .bento-container .row-short {
+    height: 120px;
+  }
+
+  .bento-card {
+    border-width: 2px;
+    border-radius: 10px;
+  }
+}
+
+/* ===== SMALL MOBILE ===== */
+@media (max-width: 480px) {
+  .bento-container .row-tall {
+    height: 150px;
+  }
+
+  .bento-container .row-mid {
+    height: 180px;
+  }
+
+  .bento-container .row-short {
+    height: 100px;
+  }
+}
