@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Discover Batangas | Judith</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="project2.css">
+</head>
+<body>
+
+  <header class="header">
+    <nav class="header__nav">
+      <a href="index.html#home" class="nav-btn">Home</a>
+      <a href="index.html#about" class="nav-btn">About</a>
+      <a href="index.html#featured" class="nav-btn">Projects</a>
+      <a href="index.html#life-lately" class="nav-btn">Life Lately</a>
+      <a href="index.html#contacts" class="nav-btn">Contacts</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <p class="eyebrow">Discover</p>
+    <h1>Batangas, Philippines</h1>
+    <p class="hero__desc">Turquoise waters, island escapes, and easy beach days, all a short trip from Manila.</p>
+    <a href="#destinations" class="btn-pill btn-pill--solid">See the beaches</a>
+  </section>
+
+  <section class="destinations" id="destinations">
+    <h2 class="section-title">Top Destinations</h2>
+    <div class="spots">
+      <article class="spot">
+        <img src="masasa.jpg" alt="Masasa Beach, Tingloy">
+        <div class="spot__body">
+          <span class="place">Tingloy</span>
+          <h3>Masasa Beach</h3>
+          <p>Famous for its crystal-clear turquoise waters, fine-to-coarse sandy/pebbly shoreline, and vibrant marine life ideal for budget-friendly snorkeling.</p>
+        </div>
+      </article>
+
+      <article class="spot">
+        <img src="laiya.jpg" alt="Laiya Beach, San Juan">
+        <div class="spot__body">
+          <span class="place">San Juan</span>
+          <h3>Laiya Beach</h3>
+          <p>A long stretch of wide, developed coastline lined with numerous resorts ranging from budget-friendly options to high-end escapes.</p>
+        </div>
+      </article>
+
+      <article class="spot">
+        <img src="fortune.jpg" alt="Fortune Island, Nasugbu">
+        <div class="spot__body">
+          <span class="place">Nasugbu</span>
+          <h3>Fortune Island</h3>
+          <p>Known for its dramatic Grecian-inspired stone pillars perched on coastal cliffs overlooking deep blue waters, offering a dramatic island-escape feel.</p>
+        </div>
+      </article>
+
+      <article class="spot">
+        <img src="sombrero.jpg" alt="Sombrero Island, Tingloy">
+        <div class="spot__body">
+          <span class="place">Tingloy</span>
+          <h3>Sombrero Island</h3>
+          <p>Named for its distinct hat-like shape, this is a premier spot for island-hopping, swimming, and rich coral reef snorkeling.</p>
+        </div>
+      </article>
+
+      <article class="spot">
+        <img src="matabungkay.jpg" alt="Matabungkay Beach, Lian">
+        <div class="spot__body">
+          <span class="place">Lian</span>
+          <h3>Matabungkay Beach</h3>
+          <p>A classic family-friendly resort destination famous for its floating bamboo rafts (balsas) where guests can lounge, swim, and dine right on the water.</p>
+        </div>
+      </article>
+
+      <article class="spot">
+        <img src="calayo.jpg" alt="Calayo Beach, Nasugbu">
+        <div class="spot__body">
+          <span class="place">Nasugbu</span>
+          <h3>Calayo Beach</h3>
+          <p>A vibrant public beach with fine light-brown sand, calm shallow waters, and plenty of local water sports like banana boats and jet skis.</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="plan" id="contact">
+    <h2 class="section-title">Plan Your Trip</h2>
+
+    <div class="plan__grid">
+      <form class="plan__form" id="inquiry">
+        <h3>Send an inquiry</h3>
+
+        <label for="name">Your name</label>
+        <input type="text" id="name" required placeholder="Juan Dela Cruz">
+
+        <label for="email">Email address</label>
+        <input type="email" id="email" required placeholder="juan.delacruz@example.com">
+
+        <label for="message">Message</label>
+        <textarea id="message" rows="4" required placeholder="Tell us about your dream beach getaway..."></textarea>
+
+        <button type="submit" class="btn-pill btn-pill--solid">Submit inquiry</button>
+        <p class="form-note" id="form-note" role="status"></p>
+      </form>
+
+      <div class="plan__info">
+        <h3>Contact information</h3>
+        <ul>
+          <li><strong>Email</strong><span>inquire@example.com</span></li>
+          <li><strong>Phone</strong><span>+63 900 000 0000</span></li>
+          <li><strong>Location</strong><span>Batangas, Philippines</span></li>
+        </ul>
+        <a href="index.html#featured" class="btn-pill btn-pill--ghost">Back to projects</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p>Humarang, Judith M. (BSIT 3-2)</p>
+  </footer>
+
+  <script>
+    document.getElementById('inquiry').addEventListener('submit', function (e) {
+      e.preventDefault();
+      document.getElementById('form-note').textContent = 'Thanks! Your inquiry was noted. We’ll get back to you soon.';
+      e.target.reset();
+    });
+  </script>
+</body>
+</html>
