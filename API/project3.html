@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dog Breeds</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+</head>
+
+<body>
+  <div class="container-fluid bg-warning py-4">
+    <div class="row">
+      <div class="col">
+        <div class="h2 text-center text-dark m-0">
+           Dog Breed Finder
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row px-5 my-3">
+      <div class="col px-5">
+        <div class="card p-3 rounded-5 p-5">
+          <div class="d-flex flex-row">
+            <input type="text" list="breedList" placeholder="Dog breed (e.g. husky, corgi, golden retriever)"
+              class="form-control rounded-start-pill" id="searchInput">
+            <datalist id="breedList"></datalist>
+            <div class="btn btn-warning rounded-end-pill" onclick="getDog()">
+              Search
+            </div>
+          </div>
+          <div class="text-center mt-3">
+            <a href="list.html" class="text-decoration-none">View all breeds</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row px-5 my-3">
+      <div class="col px-5">
+        <div class="card shadow p-5 text-center rounded-5">
+          <div class="mx-auto rounded-circle overflow-hidden" style="background-color: #eee; width: 300px; height: 300px;">
+            <img id="image" src="" style="width: 300px; height: 300px; object-fit: cover;" class="mx-auto">
+          </div>
+          <div class="h3 mt-4 display-5" id="name">Search for a breed!</div>
+          <div id="subBreeds"></div>
+          <div>
+            <button class="btn btn-outline-warning rounded-pill mt-4" id="anotherBtn" style="display: none;"
+              onclick="getDog()">Another photo</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+    crossorigin="anonymous"></script>
+  <script>
+    var elName = document.getElementById("name");
+    var elImage = document.getElementById("image");
+    var elSearch = document.getElementById("searchInput");
+    var elSubs = document.getElementById("subBreeds");
+    var elList = document.getElementById("breedList");
+    var elAnother = document.getElementById("anotherBtn");
+
+    var allBreeds = {};
+
+    function capitalizeFirstLetter(str) {
+      if (!str) return str;
+      return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+
+    // Load all breed names for the autocomplete + sub-breed info
+    const loadBreeds = async () => {
+      const response = await fetch('https://dog.ceo/api/breeds/list/all');
+      const data = await response.json();
+      allBreeds = data.message;
+
+      Object.keys(allBreeds).forEach(breed => {
+        elList.innerHTML += '<option value="' + breed + '">';
+      });
+    }
+
+    const getDog = async () => {
+      const input = elSearch.value.trim().toLowerCase();
+      if (!input) return;
+
+      // "golden retriever" -> "retriever/golden" (sub-breed format of the API)
+      const words = input.split(/\s+/);
+      const path = words.length === 2 ? words[1] + '/' + words[0] : words[0];
+
+      const response = await fetch('https://dog.ceo/api/breed/' + path + '/images/random');
+      const data = await response.json();
+
+      if (data.status !== 'success') {
+        elName.innerHTML = 'Breed not found ';
+        elImage.src = '';
+        elSubs.innerHTML = '';
+        elAnother.style.display = 'none';
+        return;
+      }
+
+      elImage.src = data.message;
+      elName.innerHTML = words.map(capitalizeFirstLetter).join(' ');
+      elAnother.style.display = 'inline-block';
+
+      // Show sub-breeds (only for main breeds)
+      const subs = words.length === 1 ? (allBreeds[words[0]] || []) : [];
+      elSubs.innerHTML = subs.map(s =>
+        '<span class="badge rounded-pill text-bg-warning me-1">' + capitalizeFirstLetter(s) + '</span>'
+      ).join('');
+    }
+
+    elSearch.addEventListener('keydown', e => {
+      if (e.key === 'Enter') getDog();
+    });
+
+    // Support links from list.html (index.html?breed=husky)
+    const urlParams = new URLSearchParams(window.location.search);
+    loadBreeds().then(() => {
+      const breed = urlParams.get('breed');
+      if (breed) {
+        elSearch.value = breed;
+        getDog();
+      }
+    });
+  </script>
+</body>
+
+</html>
