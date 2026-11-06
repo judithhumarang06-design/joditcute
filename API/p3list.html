@@ -244,7 +244,7 @@
     var page = Number(urlParams.get('page')) || 1;
 
     var perPageLoad = 12;
-    var breeds = {};      
+    var breeds = {};      // { breed: [subBreeds] }
     var breedNames = [];
     var lastPage = 1;
     var imagesByName = {};
@@ -255,19 +255,37 @@
     var elParent = document.getElementById("parent");
     var elCurrentPage = document.getElementById("currentPage");
 
+    // fetch that gives up after a few seconds so the popup never gets stuck
+    const fetchWithTimeout = async (url, ms) => {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), ms);
+      try {
+        return await fetch(url, { signal: controller.signal });
+      } finally {
+        clearTimeout(timer);
+      }
+    }
+
+    // dogapi.dog has a description for each breed. Tried once only; if it fails, we skip it.
     const loadDescriptions = async () => {
       if (descLoaded) return;
-      let url = 'https://dogapi.dog/api/v2/breeds?page[number]=1';
-      while (url) {
-        const res = await fetch(url);
-        const json = await res.json();
-        json.data.forEach(b => descBreeds.push({
-          name: b.attributes.name,
-          description: b.attributes.description
-        }));
-        url = json.links && json.links.next ? json.links.next : null;
+      descLoaded = true; // mark first so a failure is not retried on every click
+      try {
+        let url = 'https://dogapi.dog/api/v2/breeds?page[size]=100&page[number]=1';
+        let pages = 0;
+        while (url && pages < 5) {
+          const res = await fetchWithTimeout(url, 4000);
+          const json = await res.json();
+          json.data.forEach(b => descBreeds.push({
+            name: b.attributes.name,
+            description: b.attributes.description
+          }));
+          url = json.links && json.links.next ? json.links.next : null;
+          pages++;
+        }
+      } catch (err) {
+        console.log('dogapi.dog not available, using Wikipedia instead', err);
       }
-      descLoaded = true;
     }
 
     const getDescription = async (name) => {
@@ -283,15 +301,17 @@
         if (match && match.description) return match.description;
       } catch (err) { }
 
-
+      // 2) Wikipedia backup
       try {
         const searchUrl = 'https://en.wikipedia.org/w/api.php?action=query&list=search&format=json&origin=*&srlimit=1&srsearch='
           + encodeURIComponent(name + ' dog breed');
-        const searchData = await (await fetch(searchUrl)).json();
+        const searchData = await (await fetchWithTimeout(searchUrl, 6000)).json();
         const hit = searchData.query.search[0];
-        const sum = await (await fetch('https://en.wikipedia.org/api/rest_v1/page/summary/' + encodeURIComponent(hit.title))).json();
+        const sum = await (await fetchWithTimeout('https://en.wikipedia.org/api/rest_v1/page/summary/' + encodeURIComponent(hit.title), 6000)).json();
         if (sum.extract) return sum.extract;
-      } catch (err) { }
+      } catch (err) {
+        console.log('Wikipedia failed', err);
+      }
 
       return capitalizeFirstLetter(name) + ' is a breed of dog.';
     }
