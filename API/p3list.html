@@ -244,7 +244,7 @@
     var page = Number(urlParams.get('page')) || 1;
 
     var perPageLoad = 12;
-    var breeds = {};      // { breed: [subBreeds] }
+    var breeds = {};      
     var breedNames = [];
     var lastPage = 1;
     var imagesByName = {};
@@ -255,7 +255,6 @@
     var elParent = document.getElementById("parent");
     var elCurrentPage = document.getElementById("currentPage");
 
-    // dogapi.dog has a description for each breed. Load all pages once.
     const loadDescriptions = async () => {
       if (descLoaded) return;
       let url = 'https://dogapi.dog/api/v2/breeds?page[number]=1';
@@ -284,7 +283,7 @@
         if (match && match.description) return match.description;
       } catch (err) { }
 
-      // 2) Wikipedia backup
+
       try {
         const searchUrl = 'https://en.wikipedia.org/w/api.php?action=query&list=search&format=json&origin=*&srlimit=1&srsearch='
           + encodeURIComponent(name + ' dog breed');
