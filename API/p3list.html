@@ -5,18 +5,132 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Dog Breeds List</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <style>
+    :root {
+      --cream: #fdf9f4;
+      --bg: #f8f1e9;
+      --brown: #4a2f2a;
+      --pink: #efd0d3;
+      --nav-pink: #f0d4d6;
+      --beige: #f3e4d4;
+      --lilac: #d9c8e2;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--brown);
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .site-header {
+      background: var(--cream);
+      border-bottom: 1px solid #efe3d6;
+      padding: 24px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .nav-btn {
+      display: inline-block;
+      background: var(--nav-pink);
+      color: var(--brown);
+      text-decoration: none;
+      font-weight: 500;
+      padding: 10px 22px;
+      border-radius: 999px;
+      margin-left: 8px;
+    }
+
+    .nav-btn:hover { background: var(--lilac); color: var(--brown); }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-weight: 600;
+      text-align: center;
+      color: var(--brown);
+      margin: 40px 0 24px;
+    }
+
+    .page-link {
+      background: var(--cream);
+      color: var(--brown);
+      border: 0;
+      margin: 0 4px;
+      border-radius: 999px !important;
+      padding: 8px 20px;
+      font-weight: 500;
+    }
+
+    .page-link:hover { background: var(--lilac); color: var(--brown); }
+
+    .pagination { justify-content: center; }
+
+    .breed-card {
+      border: 0;
+      border-radius: 28px;
+      padding: 24px;
+      box-shadow: none;
+    }
+
+    .breed-card.c0 { background: var(--pink); }
+    .breed-card.c1 { background: var(--beige); }
+    .breed-card.c2 { background: var(--lilac); }
+
+    .breed-name {
+      font-family: 'Playfair Display', serif;
+      font-weight: 600;
+    }
+
+    .breed-name a {
+      color: var(--brown);
+      text-decoration: none;
+    }
+
+    .breed-name a:hover { text-decoration: underline; }
+
+    .sub-pill {
+      background: var(--cream);
+      color: var(--brown);
+      border-radius: 999px;
+      padding: 6px 18px;
+      font-size: .9rem;
+    }
+
+    .breed-img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border: 4px solid var(--cream);
+    }
+
+    footer {
+      text-align: center;
+      padding: 32px 0;
+      color: var(--brown);
+    }
+  </style>
 </head>
 
 <body>
-  <div class="container-fluid bg-warning shadow mb-3">
-    <div class="row">
-      <div class="col">
-        <div class="text-center display-6 text-dark py-3">🐕 Dog Breeds</div>
-      </div>
+  <header class="site-header">
+    <a href="project3.html" class="nav-btn">&larr; Back</a>
+    <div>
+    <a href="index.html#home" class="nav-btn">Home</a>
+    <a href="index.html#about" class="nav-btn">About</a>
+    <a href="index.html#featured" class="nav-btn">Projects</a>
+    <a href="index.html#life-lately" class="nav-btn">Life Lately</a>
+    <a href="index.html#contacts" class="nav-btn">Contacts</a>
     </div>
-  </div>
+  </header>
+
+  <h2 class="section-title">Dog Breeds</h2>
 
   <div class="container">
     <nav aria-label="Page navigation">
@@ -32,6 +146,10 @@
     <div class="row" id="parent"></div>
   </div>
 
+  <footer>
+    <p>Humarang, Judith M. (BSIT 3-2)</p>
+  </footer>
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
     crossorigin="anonymous"></script>
@@ -43,7 +161,6 @@
 
     const urlParams = new URLSearchParams(window.location.search);
 
-    // Number() is important: URL params are strings, so "1" + 1 would become "11"
     var page = Number(urlParams.get('page')) || 1;
 
     var perPageLoad = 12;
@@ -71,7 +188,6 @@
       const start = perPageLoad * (page - 1);
       const pageBreeds = breedNames.slice(start, start + perPageLoad);
 
-      // Fetch all images of this page at the same time (faster than one by one)
       const images = await Promise.all(pageBreeds.map(async name => {
         const response = await fetch('https://dog.ceo/api/breed/' + name + '/images/random');
         const data = await response.json();
@@ -81,15 +197,16 @@
       pageBreeds.forEach((name, i) => {
         const subs = breeds[name];
         const subText = subs.length > 0 ? subs.length + ' sub-breed' + (subs.length > 1 ? 's' : '') : 'No sub-breeds';
+        const colorClass = 'c' + (i % 3);
 
         elParent.innerHTML += `
-          <div class="col-12">
-            <div class="card my-3 shadow-sm p-4 d-flex flex-row align-items-center">
-              <img class="rounded-circle" style="width: 80px; height: 80px; object-fit: cover;" src="` + images[i] + `">
-              <div class="mx-4 h4 m-0">
-                <a style="text-decoration: none" href="index.html?breed=` + name + `">` + capitalizeFirstLetter(name) + `</a>
+          <div class="col-12 col-md-6">
+            <div class="card breed-card ${colorClass} my-2 d-flex flex-row align-items-center">
+              <img class="rounded-circle breed-img" src="` + images[i] + `" alt="` + name + `">
+              <div class="mx-4 h4 m-0 breed-name">
+                <a href="project3.html?breed=` + name + `">` + capitalizeFirstLetter(name) + `</a>
               </div>
-              <div class="rounded-pill px-4 bg-warning-subtle">` + subText + `</div>
+              <div class="sub-pill ms-auto">` + subText + `</div>
             </div>
           </div>
         `;
